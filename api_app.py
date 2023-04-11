@@ -30,4 +30,4 @@ class RandomUser(Resource):
 api.add_resource(RandomUser, '/randomuser')  # '/randomuser' is our entry point for Users
 
 if __name__ == '__main__':
-    app.run()  # run our Flask app
+    app.run(host='0.0.0.0',port=int(os.environ.get('PORT', 5000)))  # run our Flask app
