@@ -22,6 +22,7 @@ class RandomUser(Resource):
         headers = {'Authorization': f'Bearer {token}', 'Client-Id': 'o5srkuosq373r07gzbckz7xj6hkj1i'}
         r = requests.get(url, headers=headers)
         json_data = r.json()
+        print(json_data)
         rd = random.randint(0, len(json_data['data'])-1)
         return json_data['data'][rd]['user_name']
 
