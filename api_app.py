@@ -21,8 +21,20 @@ class RandomUser(Resource):
         url = f'https://api.twitch.tv/helix/chat/chatters?broadcaster_id={channelID}&moderator_id={moderatorID}'
         headers = {'Authorization': f'Bearer {token}', 'Client-Id': 'o5srkuosq373r07gzbckz7xj6hkj1i'}
         r = requests.get(url, headers=headers)
+        if(r.status_code == 400):
+            return "IDs are required and must be valid"
+        elif(r.status_code == 401):
+            return "Problem with your token. Probably it is expired"
+        elif(r.status_code == 403):
+            return "You are not a moderator in this channel"
         json_data = r.json()
         rd = random.randint(0, len(json_data['data'])-1)
+        count = 0
+        while(json_data['data'][rd]['user_name'] in ['Nightbot', 'StreamElements', 'CommanderRoot', 'SoundAlerts']):
+            rd = random.randint(0, len(json_data['data'])-1)
+            count += 1
+            if(count == 10):
+                return "Bots"
         return json_data['data'][rd]['user_name']
 
     
